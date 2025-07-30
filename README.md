@@ -367,7 +367,7 @@ Jumlah data awal yang tersedia adalah 3790 baris. Setelah dilakukan pembagian da
   - Data latih (train set): 37.929 data (80%)
   - Data uji (test set): 9.483 data (20%)
 
-## 4.7 Feature Dimensionality Reduction with PCA
+## 4.7 Feature Dimensionality Reduction dengan PCA
 PCA (Principal Component Analysis) dilakukan untuk mereduksi dimensi fitur yang berkorelasi tinggi, seperti carat, x, y, dan z, terutama pada model berbasis linear (misalnya regresi linier, SVM, dan KNN). Proses ini memerlukan data yang telah distandardisasi agar hasilnya optimal. Sedangkan model berbasis pohon keputusan (seperti Random Forest dan XGBoost) tidak memerlukan PCA, karena tidak sensitif terhadap korelasi antar fitur dan dapat menangani multikolinearitas secara alami.
 
 ## 4.8 Feature Encoding
