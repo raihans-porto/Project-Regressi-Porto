@@ -393,6 +393,7 @@ Setiap model akan dievaluasi menggunakan metrik seperti Mean Absolute Error (MAE
 
 ### Sebelum Tuning Hyperparameter
 - Adapun hasil dari pelatihan model setelah tuning hyperparameter disajikan pada Tabel dibawah:
+  
 | Model Name               | MAE      | RMSE     | R2       |
 |--------------------------|----------|----------|----------|
 | LGBMRegressor            | 0.070208 | 0.096029 | 0.990750 |
@@ -408,6 +409,7 @@ Setiap model akan dievaluasi menggunakan metrik seperti Mean Absolute Error (MAE
 
 #### Setelah Tuning Hyperparameter
 - Adapun hasil dari pelatihan model setelah tuning hyperparameter disajikan pada Tabel dibawah:
+  
 | Model Name               | MAE      | RMSE     | R2       |
 |--------------------------|----------|----------|----------|
 | LGBMRegressor            | 0.062714 | 0.088848 | 0.992081 |
@@ -421,7 +423,7 @@ Setiap model akan dievaluasi menggunakan metrik seperti Mean Absolute Error (MAE
 | KNeighborsRegressor      | 0.105250 | 0.143077 | 0.979465 |
 | ElasticNet               | 0.119310 | 0.160173 | 0.974265 |
 
-Berdasarkan hasil evaluasi, model LGBMRegressor menunjukkan performa paling konsisten dan unggul di seluruh metrik setelah tuning:
+Berdasarkan hasil evaluasi, model LGBMRegressor menunjukkan performa paling konsisten dan unggul di seluruh metrik baik sebelum atau setelah tuning:
    - MAE: 0.062714 (terendah di antara seluruh model)
    - RMSE: 0.088848 (terendah di antara seluruh model)
    - R²: 0.992081 (tertinggi di antara seluruh model)
@@ -438,7 +440,7 @@ Untuk membuat perbandingannya dilakukan dengan menggunakan scatterplot dan linep
 
 # 7. Kesimpulan
 - Adapun kesimpulan dari pengerjaan project ini adalah sebagai berikut:
-  1. Pembangunan model regresi prediktif terhadap harga berlian berhasil dilakukan menggunakan algoritma LightGBM. Model dilatih berdasarkan atribut fisik seperti carat, cut, color, clarity, dan dimensi (x, y, z), yang terbukti memiliki hubungan kuat dengan harga. Hasil visualisasi dan evaluasi menunjukkan model mampu mempelajari pola harga dengan baik.
+ 1. Pembangunan model regresi prediktif terhadap harga berlian berhasil dilakukan menggunakan algoritma LightGBM. Model dilatih berdasarkan atribut fisik seperti carat, cut, color, clarity, dan dimensi (x, y, z), yang terbukti memiliki hubungan kuat dengan harga. Hasil visualisasi dan evaluasi menunjukkan model mampu mempelajari pola harga dengan baik.
  2. Evaluasi model menggunakan metrik regresi seperti MAE, RMSE, dan R² menunjukkan bahwa prediksi harga cukup akurat dan andal. Skor R² mendekati 1 memperkuat keyakinan bahwa model dapat digunakan dalam konteks nyata untuk mendukung pengambilan keputusan.
  3. Model regresi ini berpotensi memberikan manfaat nyata dalam industri perdagangan berlian dengan membantu pelaku bisnis menentukan harga jual yang lebih efisien, adil, dan berbasis data. Selain itu, penerapan model semacam ini dapat meningkatkan transparansi dalam penilaian harga, mengurangi ketergantungan pada penilaian subjektif.
 
