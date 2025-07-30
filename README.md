@@ -23,3 +23,104 @@ Penerapan teknologi ini diharapkan dapat membantu pelaku industri seperti toko p
 
 # 2. Business Understanding
 ![1_nYVObp29l1_9hPNJKhQvGA-1](https://github.com/user-attachments/assets/bc3fc484-02be-40d6-8f9a-570f3d4d9fac)
+
+Dalam menghadapi fluktuasi harga berlian dan perubahan preferensi konsumen global, pelaku industri perhiasan membutuhkan solusi yang adaptif dan berbasis data. Pengembangan model prediksi harga berlian menjadi penting sebagai alat bantu dalam menetapkan nilai jual secara lebih akurat, efisien, dan kompetitif. Model ini memungkinkan estimasi harga dilakukan secara objektif berdasarkan karakteristik fisik berlian seperti carat, cut, color, dan clarity, tanpa harus selalu bergantung pada penilaian manual.
+
+Penerapan sistem ini berpotensi besar untuk mendukung pengambilan keputusan strategis di berbagai lini bisnis, mulai dari produsen, pedagang, hingga platform jual beli online. Selain mempermudah proses penetapan harga, model prediktif ini juga meningkatkan transparansi pasar dan kepercayaan konsumen terhadap produk yang ditawarkan. Dengan demikian, proyek ini tidak hanya menjadi solusi teknis, tetapi juga mendukung efisiensi dan keberlanjutan industri berlian di tengah tantangan global.
+
+## 2.1 Problem Statements
+Berdasarkan latar belakang yang telah dipaparkan, dapat dirumuskan beberapa permasalahan utama yang menjadi fokus dalam proyek ini, yaitu:
+
+1. Bagaimana membangun sebuah model machine learning yang mampu memprediksi harga berlian secara akurat berdasarkan atribut fisik seperti `carat`, `cut`, `color`, `clarity`, dan dimensi (`x`, `y`, `z`).
+2. Apa saja metrik evaluasi yang tepat untuk mengukur kinerja dari model regresi harga berlian, sehingga hasil prediksi dapat digunakan secara andal dalam pengambilan keputusan bisnis.
+3. Bagaimana model regresi ini dapat memberikan manfaat nyata bagi sektor perdagangan berlian, khususnya dalam membantu pelaku industri dalam penentuan harga yang efisien dan berbasis data, serta meningkatkan transparansi pasar.
+
+## 2.2 Goals
+Tujuan dari pembuatan proyek ini adalah untuk:
+
+- Mengembangkan model prediksi harga berlian berbasis machine learning yang dapat mengestimasi nilai jual berlian berdasarkan fitur-fitur relevan seperti `carat`, `clarity`, `color`, `cut`, dan dimensi fisik.
+- Mengevaluasi performa model menggunakan metrik regresi yang sesuai, seperti **R-squared (R²)**, **Root Mean Squared Error (RMSE)**, dan **Mean Absolute Error (MAE)**, untuk memastikan keandalan hasil prediksi.
+- Memberikan solusi berbasis data untuk mendukung efisiensi dan akurasi dalam proses penetapan harga berlian, baik untuk produsen, pedagang, maupun platform jual beli.
+
+## 2.3 Solution Statements
+Adapun solusi yang akan diterapkan untuk menyelesaikan proyek ini adalah:
+
+1. **Eksplorasi Data (EDA)**  
+   Melakukan eksplorasi terhadap dataset harga berlian untuk memahami distribusi fitur seperti `carat`, `clarity`, `color`, `cut`, `x`, `y`, `z`, serta hubungan antara masing-masing fitur terhadap variabel target `price`.
+
+2. **Pembersihan Data**  
+   Menangani missing values, menghapus outlier, serta mengolah variabel kategorikal seperti `cut`, `color`, dan `clarity` dengan teknik encoding yang sesuai. Proses normalisasi atau standarisasi juga diterapkan untuk mempersiapkan data sebelum pelatihan model.
+
+3. **Pemodelan dan Evaluasi**  
+   Menerapkan 10 algoritma regresi untuk membangun dan membandingkan performa model prediksi harga berlian:
+
+   ### Model yang Digunakan:
+     **a. Linear Regression**  
+     Model linier sederhana sebagai baseline, cocok untuk hubungan fitur yang bersifat linier.
+
+     **b. ElasticNet**  
+     Kombinasi Lasso dan Ridge, efektif menangani multikolinearitas dan fitur berkorelasi.
+
+     **c. K-Nearest Neighbors Regressor (KNN)**  
+     Memprediksi berdasarkan rata-rata `k` tetangga terdekat. Cocok untuk pola lokal.
+
+     **d. Support Vector Regressor (SVR)**  
+     Mencari margin optimal untuk prediksi nilai harga dengan toleransi error tertentu.
+
+     **e. Decision Tree Regressor**  
+     Model pohon yang membagi data berdasarkan nilai fitur. Mudah diinterpretasi dan tidak perlu normalisasi.
+
+     **f. Random Forest Regressor**  
+     Algoritma ensemble berbasis banyak decision tree. Stabil terhadap noise dan overfitting.
+
+     **g. Gradient Boosting Regressor**  
+     Menggabungkan weak learner secara bertahap dengan fokus memperbaiki kesalahan model sebelumnya.
+
+     **h. XGBoost Regressor**  
+     Versi lebih efisien dari Gradient Boosting. Tahan terhadap overfitting dan sangat populer.
+
+     **i. LightGBM Regressor**  
+     Alternatif Gradient Boosting yang ringan dan cepat. Cocok untuk dataset besar dengan banyak fitur kategorikal.
+
+     **j. Multi-layer Perceptron Regressor (MLPRegressor)**  
+     Model jaringan saraf yang mampu menangkap hubungan non-linear. Membutuhkan tuning dan preprocessing khusus.
+
+4. **Optimasi Model**  
+   Membangun model baseline dari semua algoritma, lalu melakukan optimasi hyperparameter menggunakan **Grid Search** atau **Randomized Search**.
+
+5. **Evaluasi dan Seleksi Model Terbaik**  
+   Menilai performa setiap model berdasarkan metrik:
+   - **MAE (Mean Absolute Error)**
+   - **RMSE (Root Mean Squared Error)**
+   - **R² (R-squared Score)**
+
+   Model dengan hasil terbaik akan dipilih sebagai model akhir untuk prediksi harga berlian.
+
+# 3. Data Understanding
+## 3.1 EDA - Deskripsi Variabel
+**Informasi Datasets**
+| Jenis | Keterangan |
+| ------ | ------ |
+| Title | Data Analysis on Diamonds Dataset |
+| Source | [Kaggle](https://www.kaggle.com/datasets/swatikhedekar/price-prediction-of-diamond) |
+| Maintainer | [Swati Khedekar ⚡](https://www.kaggle.com/swatikhedekar) |
+| License | Other (specified in description) |
+| Visibility | Publik |
+| Tags | Religion and Belief System, Beginner, Pandas, Matplotlib, Data Visualization, Regression, Exploratory Data Analysis_ |
+| Usability | 10.00 |
+
+Berikut informasi pada dataset: 
+
+Data ini disediakan secara publik di kaggle.
+
+Tabel 1. Gambaran Data yang digunakan
+
+| Unnamed: 0 | carat |   cut   | color | clarity | depth | table | price |   x   |   y   |   z   |
+|------------|-------|---------|-------|---------|-------|-------|-------|-------|-------|-------|
+|     1      | 0.23  | Ideal   |   E   |  SI2    | 61.5  | 55.0  |  326  | 3.95  | 3.98  | 2.43  |
+|     2      | 0.21  | Premium |   E   |  SI1    | 59.8  | 61.0  |  326  | 3.89  | 3.84  | 2.31  |
+|     3      | 0.23  | Good    |   E   |  VS1    | 56.9  | 65.0  |  327  | 4.05  | 4.07  | 2.31  |
+|     4      | 0.29  | Premium |   I   |  VS2    | 62.4  | 58.0  |  334  | 4.20  | 4.23  | 2.63  |
+|     5      | 0.31  | Good    |   J   |  SI2    | 63.3  | 58.0  |  335  | 4.34  | 4.35  | 2.75  |
+
+
