@@ -123,4 +123,196 @@ Tabel 1. Gambaran Data yang digunakan
 |     4      | 0.29  | Premium |   I   |  VS2    | 62.4  | 58.0  |  334  | 4.20  | 4.23  | 2.63  |
 |     5      | 0.31  | Good    |   J   |  SI2    | 63.3  | 58.0  |  335  | 4.34  | 4.35  | 2.75  |
 
+- Dari Tabel 1 di atas terlihat bahwa ada 11 buah kolom/variabel yang digunakan:
+  - `Unnamed: 0` : Identifier unik untuk setiap entri data berlian
+  - `carat` : Berat berlian dalam satuan karat
+  - `cut` : Kualitas potongan berlian (misalnya Ideal, Premium, Good)
+  - `color` : Warna berlian, dinyatakan dalam skala huruf dari D (terjernih) hingga J (kurang jernih)
+  - `clarity` : Kejernihan berlian, mencerminkan jumlah dan ukuran inklusi atau cacat
+  - `depth` : Kedalaman total berlian sebagai persentase dari lebar rata-rata
+  - `table` : Lebar bagian atas berlian sebagai persentase dari lebar total
+  - `price` : Harga berlian dalam USD (merupakan target variabel atau label untuk regresi)
+  - `x` : Panjang dimensi berlian dalam milimeter
+  - `y` : Lebar dimensi berlian dalam milimeter
+  - `z` : Kedalaman dimensi berlian dalam milimeter
 
+Tabel 2. Informasi Umum dari Dataset 
+| No | Kolom        | Non-Null Count | Dtype   |
+|----|--------------|----------------|---------|
+| 0  | Unnamed: 0         | 53940           | int64 |
+| 1  | carat       | 53940           | float64 |
+| 2  | cut    | 53940           | object |
+| 3  | color  | 53940           | object |
+| 4  | clarity    | 53940           | object |
+| 5  | depth     | 53940           | float64 |
+| 6  | table      | 53940           | float64  |
+| 7  | price      | 53940           | int64  |
+| 8  | x      | 53940           | float64  |
+| 9  | y      | 53940           | float64  |
+| 10  | z      | 53940           | float64  |
+
+Tipe data: float64 (6), int64 (2), object (3)  
+Jumlah entri: 53941 (index dari 0 sampai 53940)
+
+- Dari Tabel 2 juga dapat dilihat informasi umum dari dataset yang digunakan:
+  - Terdapat **6 kolom numerik bertipe `float64`**, yaitu: **carat, depth, table, x, y**, dan **z**.
+  - Terdapat **1 kolom numerik bertipe `int64`**, yaitu: **price**.
+  - Terdapat **3 kolom bertipe data `object`**, yaitu: **cut, color**, dan **clarity**.
+  - Terdapat **1 kolom identifier (`Unnamed: 0`)** yang hanya berfungsi sebagai penomoran atau ID, sehingga perlu dihapus karena tidak memberikan informasi analitis.
+
+Tabel 3 Informasi Statistik dari Dataset
+
+| Kolom  | Count   | Mean     | Std       | Min  | 25%  | 50%   | 75%   | Max     |
+|--------|---------|----------|-----------|------|------|-------|-------|---------|
+| carat  | 53940.0 | 0.797940 | 0.474011  | 0.2  | 0.40 | 0.70  | 1.04  | 5.01    |
+| depth  | 53940.0 | 61.749405| 1.432621  | 43.0 | 61.0 | 61.80 | 62.50 | 79.00   |
+| table  | 53940.0 | 57.457184| 2.234491  | 43.0 | 56.0 | 57.00 | 59.00 | 95.00   |
+| price  | 53940.0 | 3932.799722 | 3989.439738 | 326.0 | 950.0 | 2401.00 | 5324.25 | 18823.00 |
+| x      | 53940.0 | 5.731157 | 1.121761  | 0.0  | 4.71 | 5.70  | 6.54  | 10.74   |
+| y      | 53940.0 | 5.734526 | 1.142135  | 0.0  | 4.72 | 5.71  | 6.54  | 58.90   |
+| z      | 53940.0 | 3.538734 | 0.705699  | 0.0  | 2.91 | 3.53  | 4.04  | 31.80   |
+
+- Insight yang didapatkan dari informasi statistik adalah sebagai berikut:
+   - Ditemukan kejanggalan pada kolom x, y, dan z, di mana terdapat nilai minimum sebesar 0.
+   - Nilai 0 pada panjang, lebar, dan kedalaman berlian mustahil ada karena ukuran fisik berlian tidak mungkin nol.
+   - Kemungkinan besar, nilai 0 tersebut merupakan representasi dari data yang hilang (missing value) yang disamarkan.
+ 
+## 3.2 EDA - Pengecekan Missing Value 
+Pengecekan ini diperlukan agar memastikan bahwa tidak ada nilai yang hilang (`missing value`). 
+
+```python
+# Cek kolom dengan data yang hilang
+diamonds_df_eda.isnull().sum()
+diamonds_df_eda[diamonds_df_eda.isnull.any(axis=1)]
+```
+- Hasilnya:
+
+| Column  | Missing Values |
+|---------|----------------|
+| carat   | 0              |
+| cut     | 0              |
+| color   | 0              |
+| clarity | 0              |
+| depth   | 0              |
+| table   | 0              |
+| price   | 0              |
+| x       | 8              |
+| y       | 7              |
+| z       | 20             |
+
+- Dari hasil diatas ditemukan **8 data yang missing pada kolom x, 7 pada kolom y, dan 20 kolom z** pada yang perlu ditangani dimana salah satu caranya dengan **menghapus data tersebut**.
+
+## 3.3 EDA - Pengecekan Data Duplikat
+Pengecekan data yang berulang (duplicated data) dilakukan agar memastikan data yang digunakan tidak duplikat, karena penggunaan data yang sama berulang kali dapat menyebabkan model mempelajari informasi yang tidak representatif, serta dapat menyebabkan bias pada hasil analisis dan model yang dibangun.
+
+```python
+# Cek jumlah data yang duplikat
+print(f'Jumlah data yang duplikat : {apple_df.duplicated().sum()}')
+```
+- Hasilnya:
+
+Jumlah Data yang Duplikat : 145
+
+- Dari hasil pengecekan yang dilakukan ditemtukan **145 data yang duplikat (sama)** yang perlu ditangani dengan **menghapus data tersebut**.
+ 
+## 3.4 EDA - Pengecekan Outlier
+Adapun outlier ini akan dicek dengan menggunakan boxplot yang ditampilkan pada Gambar 1
+<img width="1490" height="1181" alt="image" src="https://github.com/user-attachments/assets/c743cf65-60c0-456b-8dc5-27ab44d4aaa2" />
+
+- Insight yang didaptkan dari Gambar 1:
+  - Berdasarkan grafik boxplot yang ditampilkan terlihat bahwa hanya semua fitur numerik yang memiliki outlier (ditandai dengan simbol bulat).
+  - Adapun untuk outlier yang ditemukan akan dilakukan penanganan dengan dihapus menggunakan metode IQR.
+
+## 3.5 EDA - Univariate Analysis
+### 3.5.1 Categorical Column
+Pada tahapan ini, akan dibuat barplot untuk melihat distribusi jumlah data berdasarkan kategori pada setiap fitur yang ditampilkan.
+<img width="868" height="547" alt="image" src="https://github.com/user-attachments/assets/9997cc41-4117-43bd-a351-365660e66b94" />
+
+- Insight yang didapatkan dari Gambar 2:
+  - Berdasarkan visualisasi, mayoritas cut dari diamond berada pada kategori yang baik, yaitu Ideal dan Premium, yang secara keseluruhan mencakup sekitar 65% dari total data.
+  - Sementara itu, cut dengan kualitas terendah yaitu Fair, hanya mencakup sekitar 1% dari keseluruhan sampel.
+
+<img width="868" height="547" alt="image" src="https://github.com/user-attachments/assets/e79a0b3a-bf38-4e6e-8448-8e9866961d41" />
+
+- Insight yang didapatkan dari Gambar 3:
+  - Berdasarkan grafik di atas, sebagian besar diamond berada pada kualitas color (warna) yang tergolong menengah hingga agak baik, yaitu pada color G, E, dan F, yang mencakup sekitar 57,8% dari total data.
+
+ <img width="868" height="547" alt="image" src="https://github.com/user-attachments/assets/b710435e-e054-4cbd-b57c-9d61ba5bb8b1" />
+
+- Insight yang didapatkan dari Gambar 4:
+   - Berdasarkan grafik di atas, sebagian besar diamond berkualitas kejernihan (clarity) yang rendah hingga menengah, dengan sekitar 64% di antaranya berada pada kategori SI2, SI1, dan VS2.
+   - Di sisi lain, berlian dengan kualitas kejernihan terendah (I1) hanya mencakup sekitar 1%, sementara yang memiliki kualitas terbaiknya (IF) mencapai sekitar 3% dari total data.
+ 
+### 3.5.2 Numerical Column
+- Untuk kolom numerik dilakukan analisis persebaran data menggunakan histogram untuk melihat apakah datanya terdistribusi normal, skewed, ataupun disribusi lainnya.
+<img width="1989" height="1964" alt="image" src="https://github.com/user-attachments/assets/a9931f84-19a4-4014-8dc9-aab026d71cc5" />
+
+- Insight yang didapatkan dari Gambar 5:
+ 1. carat
+      - Distribusi nilai pada kolom carat bersifat right-skewed sedang. Hal ini ditunjukkan oleh skewness sebesar 1.116, serta pola histogram di mana sebagian besar data berada pada nilai kecil dengan ekor yang memanjang ke kanan. Rata-rata (mean) lebih besar dari median dan modus.
+
+2. depth
+    - Distribusi nilai pada kolom depth mendekati normal (simetris). Skewness-nya sangat kecil, yaitu -0.081, dan mean, median, serta modus hampir berhimpitan. Bentuk histogram pun memperlihatkan sebaran yang simetris di sekitar pusat data.
+
+3. table
+    - Kolom table menunjukkan distribusi sedikit right-skewed, dengan nilai skewness sebesar 0.797. Histogram menggambarkan puncak distribusi di tengah dengan sedikit pergeseran nilai ke kanan, serta mean yang sedikit lebih besar dari median dan modus.
+
+4. price
+    - Distribusi nilai pada kolom price bersifat sangat right-skewed, dengan skewness sebesar 1.618. Histogram menunjukkan konsentrasi data pada nilai rendah dan ekor panjang ke kanan. Perbedaan antara mean, median, dan modus cukup mencolok.
+
+5. x
+    - Kolom x memiliki distribusi sedikit right-skewed, ditunjukkan oleh skewness sebesar 0.398. Histogram memperlihatkan sebaran yang relatif seimbang namun tetap memiliki kecenderungan ke kanan.
+
+6. y
+   - Distribusi kolom y bersifat sangat right-skewed, dengan nilai skewness tertinggi yaitu 2.462. Histogram menunjukkan banyak nilai kecil di sisi kiri dengan ekor distribusi yang sangat panjang ke kanan. Mean, median, dan modus berhimpitan di bagian kiri.
+
+7. z
+   - Distribusi nilai pada kolom z juga sangat right-skewed, dengan skewness sebesar 1.585. Polanya serupa dengan kolom y, di mana mayoritas data terkumpul pada nilai kecil dan sebagian kecil tersebar jauh di nilai tinggi. Mean, median, dan modus saling berdekatan di bagian kiri distribusi.
+
+- Fitur-fitur yang memiliki distribusi right-skewed disarankan untuk ditransformasi menggunakan logarithmic transformation atau power transformation guna mendekatkan distribusi ke bentuk normal. dan meningkatkan performa model.
+
+## 3.6 EDA - Multivariate Analysis
+### 3.6.1 Numeric Columns
+Pada tahap ini, dilakukan analisis multivariat untuk memahami hubungan antar fitur numerik dan keterkaitannya dengan label.
+<img width="1989" height="1475" alt="image" src="https://github.com/user-attachments/assets/0033f581-1480-4b41-9578-b66cc42c7c06" />
+
+<img width="801" height="665" alt="image" src="https://github.com/user-attachments/assets/d48c6bd9-be72-4b93-ba07-f4af97044241" />
+
+- Insight yang didapatkan dari Gambar 6:
+  - Berdasarkan dua visualisasi yang diberikan, terlihat hubungan antara masing-masing fitur dengan label (price) sebagai berikut:
+  1. Tidak Ada Korelasi
+      - Fitur depth tidak menunjukkan korelasi dengan price. Hal ini terlihat dari regplot yang garis regresinya yang sejajar, serta tidak ada pola yang jelas antara depth dan price. Hal ini menyebabkan fitur **depth** dapat dihapus saat proses preprocessing.
+
+  2. Korelasi Sangat Lemah
+      - Fitur table memiliki korelasi positif yang sangat lemah dengan price. Ditunjukkan oleh regplot yang hanya menunjukkan kenaikan yang sangat kecil, serta nilai korelasi yang rendah, yaitu sekitar 0.18.
+
+  3. Korelasi Sangat Kuat
+      - Fitur carat, x, y, dan z menunjukkan korelasi positif yang sangat kuat dengan price. Artinya, semakin besar ukuran dan berat diamond, maka harga cenderung semakin tinggi.
+
+  4. Korelasi Antar Fitur
+    - Terdapat korelasi sangat tinggi antar fitur carat, x, y, dan z (corr ≈ 0.96-1), yang mengindikasikan adanya multikolinearitas. Hal ini dapat memengaruhi hasil pelatihan model regresi. Disarankan untuk mereduksi fitur-fitur ini, misalnya dengan PCA atau membuat satu fitur gabungan (seperti volume atau ukuran total) pada saat preprocessing.
+ 
+### 3.6.2 Categorical Columns
+Pada bagian ini, dilakukan pembuatan tabel dan barplot untuk melihat hubungan atau korelasi antara fitur kategorikal dengan label atau target, yaitu price.
+<img width="1490" height="1181" alt="image" src="https://github.com/user-attachments/assets/0f0e72d2-fe10-4545-ba92-50221d87607e" />
+
+- Insight yang didapatkan dari Gambar 7:
+  - Meskipun terdapat perbedaan kualitas dalam setiap fitur kategorikal (cut, color, clarity), harga rata-rata diamond tetap berada dalam kisaran yang relatif mirip, tanpa fluktuasi yang signifikan. Ini menunjukkan bahwa kualitas kategori tidak secara langsung menentukan harga. Berikut detailnya:
+
+    1. Fitur cut:
+    - Rata-rata harga diamond berada dalam rentang 3500 hingga 4500 untuk semua kategori cut. Bahkan, grade tertinggi seperti Ideal justru memiliki harga rata-rata yang lebih rendah dibandingkan beberapa grade lain. Ini menunjukkan bahwa cut memiliki pengaruh yang relatif kecil terhadap harga.
+
+    2. Fitur color:
+    - Warna terbaik dimulai dari grade D (paling bening), dan menurun ke E, F, hingga J. Namun, data menunjukkan bahwa harga rata-rata diamond tidak selalu lebih tinggi pada grade warna yang lebih baik. Bahkan, grade D tidak memiliki rata-rata harga tertinggi. Ini mengindikasikan bahwa fitur color memiliki pengaruh yang rendah terhadap harga.
+
+    3. Fitur clarity:
+    - Meskipun grade clarity yang lebih tinggi (misalnya IF atau VVS1) secara teknis lebih baik, rata-rata harganya tidak selalu lebih tinggi. Beberapa grade menengah seperti VS2 atau SI1 justru menunjukkan harga rata-rata yang cukup tinggi, menandakan bahwa fitur clarity juga memiliki pengaruh yang terbatas terhadap harga.
+
+  - Ketiga fitur kategorikal (cut, color, dan clarity) memiliki pengaruh yang rendah terhadap perubahan rata-rata harga diamond.
+
+<img width="645" height="528" alt="image" src="https://github.com/user-attachments/assets/2c41ebfb-94d3-4c59-a5bd-7f2cd56997e4" />
+
+- Insight yang didapatkan dari Gambar 8:
+  - Berdasarkan uji Chi-Square terhadap fitur kategorikal cut, color, dan clarity, diperoleh bahwa semua pasangan fitur menghasilkan p-value di atas 0.05. Hal ini menunjukkan bahwa:
+    - Tidak ada hubungan yang signifikan antara kombinasi cut dan color, cut dan clarity.
+    - Secara statistik, kita menerima hipotesis nol yang menyatakan bahwa fitur-fitur ini tidak saling berhubungan (independen).
