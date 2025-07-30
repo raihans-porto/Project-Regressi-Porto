@@ -372,3 +372,79 @@ PCA (Principal Component Analysis) dilakukan untuk mereduksi dimensi fitur yang 
 
 ## 4.8 Feature Encoding
 Tahapan terakhir dalam data preparation adalah melakukan one-hot encoding pada fitur kategorikal. Tahapan ini dipilih karena fitur-fitur tersebut bersifat nominal (tidak memiliki urutan atau hubungan numerik yang jelas terhadap label), sehingga teknik ini paling sesuai untuk merepresentasikan nilainya secara adil tanpa memberikan bobot tertentu.
+
+# 5. Modeling
+Algoritma machine learning yang diguanakan pada proyek ini ada 10 yaitu sebagai berikut:
+1. Linear Regression
+2. ElasticNet
+3. K-Nearest Neighbors Regressor
+4. Support Vector Regressor (SVR)
+5. Decision Tree Regressor
+6. Random Forest Regressor
+7. Gradient Boosting Regressor
+8. XGBoost Regressor
+9. LightGBM Regressor
+10. Multi-layer Perceptron Regressor (MLPRegressor)
+
+Setiap model akan dievaluasi menggunakan metrik seperti Mean Absolute Error (MAE), Root Mean Squared Error (RMSE), dan R-squared (R²).
+
+# 6. Evaluasi Model
+## 6.1 Evaluasi Performa Model dengan Metirk
+
+### Sebelum Tuning Hyperparameter
+- Adapun hasil dari pelatihan model setelah tuning hyperparameter disajikan pada Tabel dibawah:
+| Model Name               | MAE      | RMSE     | R2       |
+|--------------------------|----------|----------|----------|
+| LGBMRegressor            | 0.070208 | 0.096029 | 0.990750 |
+| XGBRegressor             | 0.069498 | 0.096538 | 0.990651 |
+| RandomForestRegressor    | 0.068960 | 0.102545 | 0.989452 |
+| SVR                      | 0.091949 | 0.117725 | 0.986098 |
+| MLPRegressor             | 0.092516 | 0.119247 | 0.985736 |
+| DecisionTreeRegressor    | 0.089018 | 0.137349 | 0.980177 |
+| LinearRegression         | 0.109171 | 0.140097 | 0.980312 |
+| GradientBoostingRegressor| 0.103257 | 0.140817 | 0.980109 |
+| KNeighborsRegressor      | 0.105250 | 0.143077 | 0.979465 |
+| ElasticNet               | 0.342718 | 0.421286 | 0.821965 |
+
+#### Setelah Tuning Hyperparameter
+- Adapun hasil dari pelatihan model setelah tuning hyperparameter disajikan pada Tabel dibawah:
+| Model Name               | MAE      | RMSE     | R2       |
+|--------------------------|----------|----------|----------|
+| LGBMRegressor            | 0.062714 | 0.088848 | 0.992081 |
+| GradientBoostingRegressor| 0.068371 | 0.095453 | 0.990860 |
+| XGBRegressor             | 0.068755 | 0.095468 | 0.990858 |
+| RandomForestRegressor    | 0.068667 | 0.102202 | 0.989522 |
+| MLPRegressor             | 0.089661 | 0.116516 | 0.986382 |
+| SVR                      | 0.091949 | 0.117725 | 0.986098 |
+| DecisionTreeRegressor    | 0.087856 | 0.128110 | 0.983537 |
+| LinearRegression         | 0.109171 | 0.140097 | 0.980312 |
+| KNeighborsRegressor      | 0.105250 | 0.143077 | 0.979465 |
+| ElasticNet               | 0.119310 | 0.160173 | 0.974265 |
+
+Berdasarkan hasil evaluasi, model LGBMRegressor menunjukkan performa paling konsisten dan unggul di seluruh metrik setelah tuning:
+   - MAE: 0.062714 (terendah di antara seluruh model)
+   - RMSE: 0.088848 (terendah di antara seluruh model)
+   - R²: 0.992081 (tertinggi di antara seluruh model)
+
+Hal ini menjadikan LGBMRegressor sebagai model regresi terbaik untuk memprediksi target pada dataset ini.
+
+## 6.2  Evaluasi Perbandingan Data Hasil Prediksi terhadap Data Asli
+Untuk membuat perbandingannya dilakukan dengan menggunakan scatterplot dan lineplot dalam satu grafik.
+<img width="868" height="547" alt="image" src="https://github.com/user-attachments/assets/202af327-95e9-44dc-8ab2-956e80ba866d" />
+
+- Insight yang didapatkan dari Gambar 9:
+  - Mayoritas titik prediksi (biru) berada dekat dengan garis ideal (merah), menandakan bahwa model LGBM berhasil menangkap hubungan antara fitur-fitur dan harga secara akurat. Ini menunjukkan performa model yang tinggi secara umum.
+  - Beberapa titik menyimpang cukup jauh dari garis ideal. Ini bisa disebabkan oleh kurangnya data pada rentang harga tersebut atau adanya fitur penting yang belum optimal sehingga perlu dilakukan analisis lebih lanjut terhadap data-data ini.
+
+# 7. Kesimpulan
+- Adapun kesimpulan dari pengerjaan project ini adalah sebagai berikut:
+  1. Pembangunan model regresi prediktif terhadap harga berlian berhasil dilakukan menggunakan algoritma LightGBM. Model dilatih berdasarkan atribut fisik seperti carat, cut, color, clarity, dan dimensi (x, y, z), yang terbukti memiliki hubungan kuat dengan harga. Hasil visualisasi dan evaluasi menunjukkan model mampu mempelajari pola harga dengan baik.
+ 2. Evaluasi model menggunakan metrik regresi seperti MAE, RMSE, dan R² menunjukkan bahwa prediksi harga cukup akurat dan andal. Skor R² mendekati 1 memperkuat keyakinan bahwa model dapat digunakan dalam konteks nyata untuk mendukung pengambilan keputusan.
+ 3. Model regresi ini berpotensi memberikan manfaat nyata dalam industri perdagangan berlian dengan membantu pelaku bisnis menentukan harga jual yang lebih efisien, adil, dan berbasis data. Selain itu, penerapan model semacam ini dapat meningkatkan transparansi dalam penilaian harga, mengurangi ketergantungan pada penilaian subjektif.
+
+# Referensi
+1. GIA. (n.d.). The 4Cs of Diamond Quality. Diakses dari https://4cs.gia.edu/en-us/4cs-of-diamond-quality/
+2. RMOL.ID. (2023). Harga Berlian Merosot, Konsumen Lebih Suka Habiskan Uang untuk Makan dan Traveling. Diakses dari https://www.rmol.id/bisnis/read/2023/10/03/591584/harga-berlian-merosot-konsumen-lebih-suka-habiskan-uang-untuk-makan-dan-traveling
+3. Diamondion. (2024). Global Diamond Market to Reach $414.9 Billion in 2024, Asia-Pacific Demand Surges. Diakses dari https://diamondion.com/global-diamond-market-to-reach-4149-billion-in-2024-asia-pacific-demand-surges/
+4. Kapner, S. (2023). De Beers Cuts Diamond Prices as Demand Weakens. Diakses dari https://www.wsj.com/business/retail/de-beers-diamonds-price-lab-grown-468b33ab
+5. GlobeNewswire. (2025). Diamond Jewelry Market Forecast 2025–2030: Lab-Grown Diamonds Propel Sustainability and Affordability. Diakses dari https://www.globenewswire.com/news-release/2025/05/22/3086367/28124/en/Diamond-Jewelry-Market-Forecast-2025-2030-Lab-Grown-Diamonds-Propel-Sustainability-and-Affordability.html
