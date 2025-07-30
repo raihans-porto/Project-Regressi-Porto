@@ -316,3 +316,59 @@ Pada bagian ini, dilakukan pembuatan tabel dan barplot untuk melihat hubungan at
   - Berdasarkan uji Chi-Square terhadap fitur kategorikal cut, color, dan clarity, diperoleh bahwa semua pasangan fitur menghasilkan p-value di atas 0.05. Hal ini menunjukkan bahwa:
     - Tidak ada hubungan yang signifikan antara kombinasi cut dan color, cut dan clarity.
     - Secara statistik, kita menerima hipotesis nol yang menyatakan bahwa fitur-fitur ini tidak saling berhubungan (independen).
+
+# 4. Data Preparation
+Pada tahap data preparation, setelah memahami kondisi data maka dilakukanlah preprocessing agar data tersebut dapat dilatih oleh model. Tahapannya dapat diikuti seperti dibawah:
+
+## 4.1 Menghapus Fitur yang tidak Berguna
+Berdasarkan hasil eksplorasi data (EDA), fitur depth diketahui tidak berpengaruh terhadap harga diamond sehingga akan dihapus untuk meningkatkan efisiensi dalam analisis dan pemodelan.
+
+## 4.2 Penanganan Missing Value (Nilai yang hilang)
+Dari hasil pengecekan EDA terdapat nilai yang missing pada index ke 4000 sehingga data tersebut dapat dihapus dikarenakan mengganggu pelatihan model dan menyebabkan bias pada hasil prediksi.
+
+## 4.3 Penanganan Outlier
+- Outlier yang telah dicek pada tahap EDA perlu ditangani dengan cara menghapusnya menggunakan IQR.
+- IQR (Interquartile Range) merupakan rentang antara kuartil ketiga (Q3) dan kuartil pertama (Q1) yang digunakan untuk mengukur sebaran tengah data dan mendeteksi nilai-nilai yang dianggap sebagai outlier.
+$$IQR = Q_3 - Q_1$$
+- Keterangan
+  - Q1 adalah kuartil pertama 
+  - Q3 adalah kuartil ketiga.
+
+- Untuk menghapus outlier, data yang berada di luar rentang [Q1 - 1.5 * IQR dan Q3 + 1.5 * IQR] dianggap sebagai outlier dan dihapus.
+- Adapun jumlah data sebelum penanganan outlier dan setelah penaganagn outlier sebagai berikut:
+  - Jumlah data sebelum penanganan outlier = 4000
+  - Jumlah data setelah penanganan outlier = 3790  
+
+## 4.4 Menangani Data Skewed
+Berdasarkan hasil EDA, hampir semua fitur memiliki distribusi yang right-skewed, kecuali fitur depth (yang sebelumnya telah dihapus), sehingga untuk mengatasi hal ini dan membuat distribusi data lebih mendekati normal, dilakukan transformasi menggunakan Power Transformer.
+
+## 4.5 Mengidentifikasi Fitur dan Label
+Tahap selanjutnya adalah mengidentifikasi fitur dan label dari dataset. Fitur (*features*) adalah variabel yang digunakan sebagai input untuk memprediksi target, sedangkan label (*target*) adalah variabel yang ingin diprediksi.
+
+Pada kasus ini:
+
+- **Fitur**:  
+  - carat (berat berlian dalam satuan metrik karat)  
+  - cut (kualitas potongan berlian, seperti Ideal, Premium, Good, dll.)  
+  - color (tingkat warna berlian, dari D [terjernih] hingga J)  
+  - clarity (kejernihan berlian, seperti IF, VS1, SI2, dll.)  
+  - table (lebar bagian atas berlian relatif terhadap diameter rata-rata)  
+  - x (panjang berlian dalam milimeter)  
+  - y (lebar berlian dalam milimeter)
+  - z (kedalaman berlian dalam milimeter)
+
+- **Label**:  
+  - price (harga berlian dalam USD, sebagai target prediksi regresi)
+
+## 4.6 Membagi Data
+Tahap berikutnya adalah membagi data menjadi data latih dan data uji dengan rasio 80:20. Pembagian ini penting untuk memastikan bahwa model tidak hanya belajar dari keseluruhan data tetapi juga diuji pada data yang belum pernah dilihat sebelumnya, sehingga performanya dapat dievaluasi secara objektif.
+
+Jumlah data awal yang tersedia adalah 3790 baris. Setelah dilakukan pembagian data:
+  - Data latih (train set): 37.929 data (80%)
+  - Data uji (test set): 9.483 data (20%)
+
+## 4.7 Feature Dimensionality Reduction with PCA
+PCA (Principal Component Analysis) dilakukan untuk mereduksi dimensi fitur yang berkorelasi tinggi, seperti carat, x, y, dan z, terutama pada model berbasis linear (misalnya regresi linier, SVM, dan KNN). Proses ini memerlukan data yang telah distandardisasi agar hasilnya optimal. Sedangkan model berbasis pohon keputusan (seperti Random Forest dan XGBoost) tidak memerlukan PCA, karena tidak sensitif terhadap korelasi antar fitur dan dapat menangani multikolinearitas secara alami.
+
+## 4.8 Feature Encoding
+Tahapan terakhir dalam data preparation adalah melakukan one-hot encoding pada fitur kategorikal. Tahapan ini dipilih karena fitur-fitur tersebut bersifat nominal (tidak memiliki urutan atau hubungan numerik yang jelas terhadap label), sehingga teknik ini paling sesuai untuk merepresentasikan nilainya secara adil tanpa memberikan bobot tertentu.
